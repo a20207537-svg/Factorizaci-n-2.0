@@ -1,0 +1,113 @@
+---
+title: "Reporte"
+author: "Nayeli Chuquispuma"
+date: "2025-11-12"
+output: html_document
+---
+```{r}
+library(rio)
+data=import("reporte (3).xlsx")
+```
+
+```{r}
+names(data)
+```
+ˆ
+```{r}
+data=data[,-19]
+```
+
+```{r}
+data=data[,-18]
+```
+
+```{r}
+data=data[,-15]
+```
+
+```{r}
+data=data[,-12]
+```
+
+```{r}
+data=data[,-11]
+```
+
+```{r}
+data=data[,-10]
+```
+
+```{r}
+data=data[,-8]
+```
+
+```{r}
+data=data[,-7]
+```
+
+```{r}
+data=data[,-6]
+```
+
+```{r}
+data=data[,-5]
+```
+
+```{r}
+data=data[,-1]
+```
+
+```{r}
+data=data[complete.cases(data),]
+
+```
+
+```{r}
+tail(names(data),2)
+```
+
+```{r}
+apply(data[,tail(names(data),2)],1,sum)
+```
+
+```{r}
+data$totalvivi=apply(data[,tail(names(data),2)],1,sum)
+
+```
+
+#Propia sin propiedad --> Vive en la vivienda pero no tiene los documentos legales que acrediten formalmente la propiedad (no esta registrada a su nombre)
+```{r}
+data$vulneprop=data$`Propia sin título de propiedad`/data$totalvivi
+
+```
+
+#ALUMBRADO
+
+```{r}
+cols_alumbrado=grep("alumbrado eléctrico",names(data),value=TRUE)
+cols_alumbrado
+```
+
+```{r}
+data$totalAlumbrado <- apply(data[, cols_alumbrado], 1, sum)
+```
+
+```{r}
+data$vulnealumbrado=data$`No tiene alumbrado eléctrico`/data$totalAlumbrado
+```
+
+#AGUA
+
+```{r}
+cols_agua=grep("agua",names(data),value=TRUE)
+cols_agua
+```
+
+```{r}
+data$totalAgua <- apply(data[, cols_agua], 1, sum)
+```
+
+```{r}
+data$vulneagua=data$`No pagan por el servicio de agua`/data$totalAgua
+```
+
